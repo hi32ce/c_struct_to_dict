@@ -128,6 +128,7 @@ if __name__ == '__main__':
     print("")
 
     varlist,pack_format=structInfo(MY_STRUCT,'<')
+    print(pack_format)
 #    packed_struct=struct.pack(pack_format,*MY_STRUCT_UNPACKED)
     packed_struct=PACKED_STRUCT
     print(repr(packed_struct))
