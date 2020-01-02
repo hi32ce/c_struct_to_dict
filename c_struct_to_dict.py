@@ -41,7 +41,7 @@ MY_STRUCT="""typedef struct __attribute__ ((__packed__)){
 
 
 UNPACKED_STRUCT=[1,256,65536,2**32,-1,-256,-65536,-(2**32),42,2.1,3.01,'t','e','s','t','S','t','r','i','n','g','\0','\0',1,2,3,4,5]
-PACKED_STRUCT='\x01\x00\x01\x00\x00\x01\x00\x00\x00\x00\x00\x01\x00\x00\x00\xff\x00\xff\x00\x00\xff\xff\x00\x00\x00\x00\xff\xff\xff\xff*\x00\x00\x00\x00\x00\x00\x00ff\x06@\x14\xaeG\xe1z\x14\x08@testString\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x02\x00\x00\x00\x00\x00\x00\x00\x03\x00\x00\x00\x00\x00\x00\x00\x04\x00\x00\x00\x00\x00\x00\x00\x05\x00\x00\x00\x00\x00\x00\x00'
+PACKED_STRUCT=b'\x01\x00\x01\x00\x00\x01\x00\x00\x00\x00\x00\x01\x00\x00\x00\xff\x00\xff\x00\x00\xff\xff\x00\x00\x00\x00\xff\xff\xff\xff*\x00\x00\x00\x00\x00\x00\x00ff\x06@\x14\xaeG\xe1z\x14\x08@testString\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x02\x00\x00\x00\x00\x00\x00\x00\x03\x00\x00\x00\x00\x00\x00\x00\x04\x00\x00\x00\x00\x00\x00\x00\x05\x00\x00\x00\x00\x00\x00\x00'
 
 import re
 import struct
@@ -91,11 +91,11 @@ def depack_bytearray_to_dict(bindata, cStruct, alignment="="):
 
     ind=0;
     for varname,arrlen in varlist:
-        varname=unicode(varname)
+        varname=str(varname)
         if arrlen>1:
             if pack_format[ind]=="c":
                 result[varname]=repr(
-                    u''.join([unicode(i) for i in unpacked[ind:ind+arrlen]]))
+                    u''.join([i.decode('ascii') for i in unpacked[ind:ind+arrlen]]))
             else:
                 result[varname]=unpacked[ind:ind+arrlen]
             ind+=arrlen
@@ -107,7 +107,7 @@ def depack_bytearray_to_dict(bindata, cStruct, alignment="="):
 def depack_bytearray_to_str(bindata, cStruct, alignment="="):
     out_str=u''
     for key,value in depack_bytearray_to_dict(bindata,cStruct, alignment).items():
-        out_str+=key+':'+unicode(value)+'\n'
+        out_str+=key+':'+str(value)+'\n'
     return out_str
 
 def depack_bytearray_to_namedtuple(bindata, cStruct, alignment="="):
