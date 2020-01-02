@@ -40,7 +40,7 @@ MY_STRUCT="""typedef struct __attribute__ ((__packed__)){
 } debugInfo;"""
 
 
-UNPACKED_STRUCT=[1,256,65536,2**32,-1,-256,-65536,-(2**32),42,2.1,3.01,'t','e','s','t','S','t','r','i','n','g','\0','\0',1,2,3,4,5]
+UNPACKED_STRUCT=[1,256,65536,2**32,-1,-256,-65536,-(2**32),42,2.1,3.01,b't',b'e',b's',b't',b'S',b't',b'r',b'i',b'n',b'g',b'\0',b'\0',1,2,3,4,5]
 PACKED_STRUCT=b'\x01\x00\x01\x00\x00\x01\x00\x00\x00\x00\x00\x01\x00\x00\x00\xff\x00\xff\x00\x00\xff\xff\x00\x00\x00\x00\xff\xff\xff\xff*\x00\x00\x00\x00\x00\x00\x00ff\x06@\x14\xaeG\xe1z\x14\x08@testString\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x02\x00\x00\x00\x00\x00\x00\x00\x03\x00\x00\x00\x00\x00\x00\x00\x04\x00\x00\x00\x00\x00\x00\x00\x05\x00\x00\x00\x00\x00\x00\x00'
 
 import re
@@ -129,7 +129,12 @@ if __name__ == '__main__':
 
     varlist,pack_format=structInfo(MY_STRUCT,'<')
     print(pack_format)
-#    packed_struct=struct.pack(pack_format,*MY_STRUCT_UNPACKED)
+
+    # for test of pack
+    packed_unpacked_struct=struct.pack(pack_format,*UNPACKED_STRUCT)
+    print(repr(packed_unpacked_struct))
+
+    # for test of unpack
     packed_struct=PACKED_STRUCT
     print(repr(packed_struct))
 
